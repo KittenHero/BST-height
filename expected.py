@@ -1,3 +1,4 @@
+from fraction import Fractions as frac
 def expected_height(n, e={0:0}):
 	if n not in e:
 		eh = expected_height
