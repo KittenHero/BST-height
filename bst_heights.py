@@ -30,14 +30,14 @@ def height_counts(n):
 
 '''
 computes the height of a BST given the insert order
-O(n log n) average 
+O(n log n) average
 
 needs optimisation
 
 definition:
 height(subtree) = 1 + max( height(leftsub), height(rightsub) )
 '''
-def get_height(insert_order):
+def get_height_old(insert_order):
 	if insert_order:
 		Lsubtree, Rsubtree = [], []
 		for x in insert_order[1:]:
@@ -45,10 +45,35 @@ def get_height(insert_order):
 				Lsubtree.append(x)
 			else:
 				Rsubtree.append(x)
-		return 1 + max(height(Lsubtree), height(Rsubtree))
+		return 1 + max(get_height_old(Lsubtree), get_height_old(Rsubtree))
 	else:
 		return 0
 
+'''
+same as above
+O(n log n) average
+
+not any faster, but non-recursive
+
+values agree with above for at least up to n = 10
+'''
+def get_height(insert_order):
+	stackFrame = [(insert_order, 0)]
+	maxDepth = 0
+	while stackFrame:
+		subtree, depth = stackFrame.pop()
+		maxDepth = max(depth, maxDepth)
+		if subtree:
+			Lsub, Rsub = [], []
+			for x in subtree[1:]:
+				if x < subtree[0]:
+					Lsub.append(x)
+				else:
+					Rsub.append(x)
+			stackFrame.append((Lsub, depth + 1))
+			stackFrame.append((Rsub, depth + 1))
+	# assert maxDepth == get_height_old(insert_order), 'n=%r:%d' % (insert_order, maxDepth)
+	return maxDepth
 # -------------------------part 2: analytic measures-------------------------------------------
 '''
 Straight forward implementation
