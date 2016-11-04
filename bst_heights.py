@@ -3,6 +3,7 @@
 computes the average height of a BST with n nodes
 O(n! n log n) [+ O(n)
 
+slow as #F for n >= 10
 '''
 from fractions import Fraction as frac
 def average_height(n):
@@ -61,6 +62,8 @@ def expected_height_old(n, e={0:0}):
 	if n not in e:
 		eh = expected_height_old
 		e[n] = 1 + frac( sum( eh(max(n-i,i-1)) for i in range(1, n+1)) , n)
+		# avh = average_height(n)
+		# assert e[n] == avh, '%.2f should be %.2f' % (e[n], avh)
 	return e[n]
 
 '''
@@ -75,4 +78,5 @@ def expected_height(n, e={0:0}):
 	if n not in e:
 		eh = expected_height
 		e[n] = frac(1 + (n + 1)*eh(n-1) - eh((n-1)//2), n)
+		# assert e[n] == expected_height_old(n), '%.2f should be %.2f?' % (e[n], expeceted_height_old(n))
 	return e[n]
