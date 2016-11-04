@@ -82,6 +82,7 @@ O(n^2)
 expected(subtree) = 1 + average< max <expected(leftsub), expected(rightsub)> >
 
 agrees with empirical method only up to n = 6
+fails for n >= 7 for absolutely no reason
 '''
 def expected_height_old(n, e={0:0}):
 	if n not in e:
