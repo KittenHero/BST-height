@@ -23,7 +23,7 @@ O(n! n log n)
 from itertools import permutations as permute
 def height_counts(n):
 	heights = {}
-	for insert_order in permute(tuple(range(n))):
+	for insert_order in permute(range(n)):
 		h = get_height(insert_order)
 		heights[h] = 1 + heights.get(h, 0)
 	return heights
