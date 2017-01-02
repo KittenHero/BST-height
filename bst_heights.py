@@ -14,7 +14,7 @@ O(n! n log n) [+ O(n)
 slow as #F for n >= 10
 '''
 def slow_av(n):
-	average_height(n, height_counts(n))
+	return average_height(n, height_counts(n))
 
 
 
@@ -45,7 +45,7 @@ def get_height(insert_order):
 	for x in insert_order[1:]:
 		if x < root: 	Lsub.append(x)
 		else:		Rsub.append(x)
-	return 1 + max(get_height(Lsubtree), get_height(Rsubtree))
+	return 1 + max(get_height(Lsub), get_height(Rsub))
 
 
 
@@ -102,16 +102,15 @@ def bst_height_distribution(n, cache={0:{0:1}}):
 	if n not in cache:
 		self = bst_height_distribution
 		cache[n] = {}
-		for i in range(1, n + 1):
+		for i in range(1, (n + 3)//2):# the range is halved because of symmetry
 			rTrees = self(n - i)
 			lTrees = self(i - 1)
-			permutations = choose(n - 1, i - 1)
+			permutations = choose(n - 1, i - 1) * (1 if n%2 == 1 and i == n//2 + 1 else 2)
 			for LHeight, LCount in lTrees.items():
 				for RHeight, RCount in rTrees.items():
 					h = 1 + max(LHeight, RHeight)
 					cache[n][h] = cache[n].get(h, 0) + LCount * RCount * permutations
 	return cache[n]
-
 
 
 
